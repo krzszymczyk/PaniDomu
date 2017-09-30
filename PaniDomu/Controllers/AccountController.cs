@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PaniDomu.Models;
+using PaniDomu.ViewModels;
 
 namespace PaniDomu.Controllers
 {
