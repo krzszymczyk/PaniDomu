@@ -1,0 +1,37 @@
+﻿@model PaniDomu.ViewModels.CategoriesExpensesViewModel
+
+  
+@if (!Model.Expenses.Any())
+{
+    <span class="text-info">Nie ma wprowadzonych wydatków</span>
+}
+else
+{
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Data</th>
+            <th class="col-md-2">Kwota</th>
+            <th class="col-md-1"></th>
+            <th class="col-md-1"></th>
+        </tr>
+
+        </thead>
+
+
+        @foreach (var item in Model.Expenses)
+        {
+            <tr>
+                <td>@item.DateTime.ToShortDateString()</td>
+                <td>@item.Amount.ToString("C")</td>
+                @*Todo:to implement*@
+                <td>@Html.ActionLink("Edytuj","ShowExpenses", "Expenses", new { id = Model.Categories.First().Id })</td>
+                <td>@Html.ActionLink("Usuń","Delete", "Expenses", new { id = item.Id },null)</td>
+            </tr>
+        }
+
+    </table>
+   
+}
+
+

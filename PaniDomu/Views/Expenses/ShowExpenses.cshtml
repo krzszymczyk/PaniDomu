@@ -1,0 +1,33 @@
+﻿@model PaniDomu.ViewModels.CategoriesExpensesViewModel
+
+  
+    @if (!Model.Expenses.Any())
+    {
+        <span class="text-info">Nie ma wprowadzonych wydatków</span>
+    }
+    else
+    {
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Kwota</th>
+                    <th>Kategoria</th>
+                </tr>
+
+            </thead>
+
+
+            @foreach (var item in Model.Expenses)
+            {
+                <tr>
+                    <td>@item.DateTime.ToShortDateString()</td>
+                    <td>@item.Amount.ToString("C")</td>
+                    <td>@item.Category.Name</td>
+                </tr>
+            }
+
+        </table>
+    }
+    <p>Suma wszystkich wydatków: <strong> @Model.Expenses.Sum(b => b.Amount).ToString("C")</strong>  </p>
+

@@ -1,0 +1,32 @@
+﻿@model PaniDomu.Models.Expense
+
+@{
+    ViewBag.Title = "Usuwanie";
+}
+
+
+<h3>Czy napewno chcesz usunąć wydatek?</h3>
+<div>
+    <h4>Wydatek</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> 
+            @Html.ActionLink("Powrót do wydatków", "Index", "Home", null, new { @class = "btn btn-default" });
+         
+        </div>
+    }
+</div>
