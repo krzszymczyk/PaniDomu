@@ -1,0 +1,120 @@
+﻿@using System.Web.UI.WebControls
+
+
+
+@model PaniDomu.ViewModels.CategoriesExpensesViewModel
+
+@{
+    ViewBag.Title = "Wprowadzanie wydatków";
+
+}
+
+<h2>Wprowadź daty:</h2>
+@using (Html.BeginForm("ShowExpensesByDates", "Expenses"))
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.LabelFor(m => m.StartDate)
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.EndDate)
+                </th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tr>
+            <td>
+
+                <div class="form-group">
+
+                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control col-md-3 col-xs-4" })
+                    @Html.ValidationMessageFor(m => m.StartDate)
+                </div>
+            </td>
+            <td>
+
+                <div class="form-group">
+
+                    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control col-md-3 col-xs-4" })
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <div class="col-md-3 col-xs-4">
+
+                        <button type="submit" class="btn btn-primary">Szukaj</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+}
+
+<hr />
+
+@if (!Model.Expenses.Any())
+{
+    <p style="font-size: 20px">
+        <span class="alert alert-danger">Nie ma wprowadzonych wydatków w okresie @Model.StartDate.Value.ToShortDateString() - @Model.EndDate.Value.ToShortDateString()</span>
+    </p>
+}
+else
+{
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Kwota</th>
+                <th>Kategoria</th>
+                <th>Dodatkowe info</th>
+            </tr>
+
+        </thead>
+
+
+        @if (Model != null)
+        {
+            foreach (var item in Model.Expenses)
+            {
+                <tr>
+                    <td>@item.DateTime.ToShortDateString()</td>
+                    <td>@item.Amount.ToString("C")</td>
+                    <td>@item.Category.Name</td>
+                    <td>@item.Details</td>
+                </tr>
+            }
+        }
+
+    </table>
+}
+<p>Suma wszystkich wydatków: <strong> @Model.Expenses.Sum(b => b.Amount).ToString("C")</strong>  </p>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#StartDate").datepicker({
+
+                dateFormat: "yy-mm-dd"
+
+
+            });
+            $("#EndDate").datepicker({
+
+                dateFormat: "yy-mm-dd"
+
+
+            });
+        });
+
+    </script>
+}

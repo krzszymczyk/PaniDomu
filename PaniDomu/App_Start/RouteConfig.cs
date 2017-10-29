@@ -12,8 +12,12 @@ namespace PaniDomu
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-          
-           
+
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
             routes.MapRoute(
                 name: "Expenses",
                 url: "{controller}/{action}/{id}",
@@ -25,10 +29,11 @@ namespace PaniDomu
                 defaults: new { controller = "Expenses", action = "ShowExpenses", id = UrlParameter.Optional }
             );
             routes.MapRoute(
-                name: "Default",
+                name: "DisplayingExpensesByDates",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index" }
+                defaults: new { controller = "Expenses", action = "ShowExpensesByDates", id = UrlParameter.Optional }
             );
+            
         }
     }
 }

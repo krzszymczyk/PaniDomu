@@ -12,6 +12,7 @@ using System.Data.Entity;
 using System.Net;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
+
 namespace PaniDomu.Controllers
 {
     [Authorize]
@@ -67,6 +68,34 @@ namespace PaniDomu.Controllers
             return RedirectToAction("Index", "Home");
 
         }
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult ShowExpensesByDates(CategoriesExpensesViewModel model)
+        {
+            
+
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month,1), endDate = startDate.AddMonths(1).AddDays(-1);
+            if (model.StartDate != null && model.EndDate != null)
+            {
+                startDate = (DateTime) model.StartDate;
+                endDate = (DateTime) model.EndDate;
+            }
+            var categories = _context.Categories.ToList();
+            string userId = User.Identity.GetUserId();
+            var expenses = _context.Expenses
+             
+                .Where(x => x.UserId == userId)
+                .Where(x => x.DateTime >= startDate && x.DateTime <= endDate)
+                .ToList();
+            var viewModel = new CategoriesExpensesViewModel
+            {
+                Categories = categories.OrderBy(n => n.Name),
+                Expenses = expenses,
+                StartDate = startDate,
+                EndDate = endDate
+
+            };
+            return View(viewModel);
+        }
 
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult ShowExpenses(int? id)
@@ -82,19 +111,21 @@ namespace PaniDomu.Controllers
             }
             else
             {
-                expenses = _context.Expenses.Include(m => m.Category).Where(x => x.CategoryId == id).OrderByDescending(x=>x.DateTime).Take(5).ToList().Where(x => x.UserId == User.Identity.GetUserId());
+                expenses = _context.Expenses.Include(m => m.Category).Where(x => x.CategoryId == id).OrderByDescending(x=>x.DateTime).ToList().Where(x => x.UserId == User.Identity.GetUserId());
                 categories = _context.Categories.Where(x => x.Id == id).ToList();
                 viewName = "ShowExpensesForCategory";
             }
-
-
+           
             var viewModel = new CategoriesExpensesViewModel
             {
                 Categories = categories.OrderBy(n => n.Name),
                 Expenses = expenses
             };
+           
+
             return PartialView(viewName,viewModel);
         }
+
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
 
         public ActionResult SumByCategory(byte id)

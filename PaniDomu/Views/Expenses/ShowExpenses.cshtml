@@ -1,7 +1,9 @@
 ﻿@model PaniDomu.ViewModels.CategoriesExpensesViewModel
 
-  
-    @if (!Model.Expenses.Any())
+
+
+
+@if (!Model.Expenses.Any())
     {
         <span class="text-info">Nie ma wprowadzonych wydatków</span>
     }
@@ -19,14 +21,17 @@
             </thead>
 
 
-            @foreach (var item in Model.Expenses)
+            @if (Model != null)
             {
-                <tr>
-                    <td>@item.DateTime.ToShortDateString()</td>
-                    <td>@item.Amount.ToString("C")</td>
-                    <td>@item.Category.Name</td>
-                    <td>@item.Details</td>
-                </tr>
+                foreach (var item in Model.Expenses)
+                {
+                    <tr>
+                        <td>@item.DateTime.ToShortDateString()</td>
+                        <td>@item.Amount.ToString("C")</td>
+                        <td>@item.Category.Name</td>
+                        <td>@item.Details</td>
+                    </tr>
+                }
             }
 
         </table>
