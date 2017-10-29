@@ -22,6 +22,9 @@ namespace PaniDomu.ViewModels
         [Display(Name = "Kwota:")]
         [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal Amount { get; set; }
+        [Display(Name = "Dodatkowe info")]
+        [MaxLength(1024)]
+        public string Details { get; set; }
         public DateTime GetDateTime()
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, "0:00:01"));

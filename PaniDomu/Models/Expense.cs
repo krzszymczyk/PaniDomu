@@ -14,6 +14,7 @@ namespace PaniDomu.Models
         [Required]
         public string UserId { get; set; }
         [DataType(DataType.Date)]
+        [Display(Name = "Data:")]
         public DateTime DateTime { get; set; }
 
         public Category Category { get; set; }
@@ -21,7 +22,10 @@ namespace PaniDomu.Models
         public byte CategoryId { get; set; }
 
         [Required]
+        [Display(Name = "Kwota:")]
         [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal Amount { get; set; }
+        [MaxLength(1024)]
+        public string Details { get; set; }
     }
 }

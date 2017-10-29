@@ -13,6 +13,7 @@
                     <th>Data</th>
                     <th>Kwota</th>
                     <th>Kategoria</th>
+                    <th>Dodatkowe info</th>
                 </tr>
 
             </thead>
@@ -24,6 +25,7 @@
                     <td>@item.DateTime.ToShortDateString()</td>
                     <td>@item.Amount.ToString("C")</td>
                     <td>@item.Category.Name</td>
+                    <td>@item.Details</td>
                 </tr>
             }
 

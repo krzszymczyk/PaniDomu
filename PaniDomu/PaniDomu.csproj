@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201710011100596_AddedCategories.Designer.cs">
       <DependentUpon>201710011100596_AddedCategories.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710171632374_AddedDetailsToExpense.cs" />
+    <Compile Include="Migrations\201710171632374_AddedDetailsToExpense.Designer.cs">
+      <DependentUpon>201710171632374_AddedDetailsToExpense.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Expense.cs" />
@@ -303,7 +307,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\PaniWdomu.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -323,7 +327,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -370,6 +376,7 @@
     <Content Include="Views\Expenses\Delete.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Expenses\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -386,6 +393,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710011100596_AddedCategories.resx">
       <DependentUpon>201710011100596_AddedCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710171632374_AddedDetailsToExpense.resx">
+      <DependentUpon>201710171632374_AddedDetailsToExpense.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

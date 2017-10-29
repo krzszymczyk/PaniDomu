@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ using PaniDomu.Models;
 using PaniDomu.ViewModels;
 using System.Data.Entity;
 using System.Net;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace PaniDomu.Controllers
 {
@@ -23,7 +25,10 @@ namespace PaniDomu.Controllers
         }
 
 
-        
+        public ActionResult Index()
+        {
+            return View();
+        }
       
         public ActionResult Create(int id)
         {
@@ -53,7 +58,9 @@ namespace PaniDomu.Controllers
                 UserId = User.Identity.GetUserId(),
                 DateTime = viewModel.GetDateTime(),
                 CategoryId = viewModel.CategoryId,
-                Amount = viewModel.Amount
+                Amount = viewModel.Amount,
+                Details = viewModel.Details
+                
             };
             _context.Expenses.Add(expense);
             _context.SaveChanges();
@@ -70,7 +77,7 @@ namespace PaniDomu.Controllers
             if (id == null)
             {
                 categories = _context.Categories.ToList();
-                expenses = _context.Expenses.Include(m => m.Category).ToList().Where(x=>x.UserId==User.Identity.GetUserId());
+                expenses = _context.Expenses.Include(m => m.Category).OrderByDescending(x => x.DateTime).ToList().Where(x=>x.UserId==User.Identity.GetUserId());
                 viewName = "ShowExpenses";
             }
             else
@@ -92,9 +99,25 @@ namespace PaniDomu.Controllers
 
         public ActionResult SumByCategory(byte id)
         {
+            DateTime startDate, endDate;
+            if ((DateTime.Now.Day < 14))
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-1).Month,14);
+                endDate = new DateTime(DateTime.Now.Year,DateTime.Now.Month,13); 
+            }
+            else
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 14);
+                endDate = new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 13);
+            }
             decimal sum = 0.0m;
+            string userId = User.Identity.GetUserId();
             string category = _context.Categories.First(x => x.Id == id).Name;
-            var expense = _context.Expenses.Where(x => x.CategoryId == id).ToList().Where(x => x.UserId == User.Identity.GetUserId());
+            var expense = _context.Expenses
+                .Where(x => x.CategoryId == id)
+                .Where(x => x.UserId == userId)
+                .Where(x=>x.DateTime >= startDate && x.DateTime<=endDate)
+                .ToList();
 
             sum = expense.Sum(x => x.Amount);
 
@@ -125,7 +148,7 @@ namespace PaniDomu.Controllers
         public ActionResult DeleteConfirmed(byte id)
         {
             Expense expense = _context.Expenses.Find(id);
-            _context.Expenses.Remove(expense);
+            _context.Expenses.Remove(expense ?? throw new InvalidOperationException("Nie ma takiego wydatku"));
             _context.SaveChanges();
             return RedirectToAction("Index","Home");
         }

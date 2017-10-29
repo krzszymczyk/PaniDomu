@@ -18,7 +18,7 @@
         </div>
        
         <div class="col-md-6 col-xs-12">
-            <h4>Zestawienia:</h4>
+            <h4>Zestawienia w okresie rozliczeniowym:</h4>
             @foreach (var item in Model.Categories)
             {
                 @Html.Action("SumByCategory", "Expenses", new {id = item.Id})
@@ -29,12 +29,4 @@
 
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="col-md-8 col-xs-12">
-            @Html.Action("ShowExpenses","Expenses")
-        </div>
 
-    </div>
-
-</div>
